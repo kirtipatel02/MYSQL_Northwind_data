@@ -1,0 +1,60 @@
+-- Introductory Problems
+
+-- 1. Which shippers do we have?
+select * from shippers;
+
+-- 2. Certain fields from Categories
+select category_name, description from categories;
+
+-- 3. Sales Representatives
+select first_name, last_name, hire_date, title from employees where title = 'Sales Representative';
+
+-- 4. Sales Representatives in the United States
+select first_name, last_name, hire_date, country from employees where country = 'USA';
+
+-- 5. Orders placed by specific EmployeeID
+select * from orders where employee_id = 5;
+
+-- 6. Suppliers and ContactTitles
+select supplier_id, contact_name, contact_title from suppliers;
+
+-- 7. Products with “queso” in ProductName
+select * from products where product_name like '%queso%';
+
+-- 8. Orders shipping to France or Belgium
+select * from orders where ship_country in('France','Belgium');
+select * from orders where ship_country = 'France' or ship_country = 'Belgium';
+select ship_country, order_id, customer_id from orders where ship_country = 'France' or ship_country = 'Belgium';
+
+-- 9. Orders shipping to any country in Latin America
+select order_id, customer_id, ship_city, ship_country from orders where ship_country in('Brazil','Mexico','Argentina','Venezuela');
+
+-- 10. Employees, in order of age
+select employee_id, first_name, last_name, title, birth_date from employees order by birth_date ;
+
+-- 11. Showing only the Date with a DateTime field
+select employee_id, first_name, last_name, title, cast(birth_date as date) as dateonlybirthdate from employees order by birth_date;
+
+-- 12. Employees full name
+select first_name, last_name, concat(first_name,' ',last_name) as full_name from employees;
+ 
+ -- 13. OrderDetails amount per line item
+select order_id, product_id, unit_price, quantity, unit_price*quantity as total_price from order_details order by order_id, product_id;
+
+-- 14. How many customers?
+select count(*) from customers;
+
+-- 15. When was the first order?
+select min(order_date) as first_order from orders;
+
+-- 16. Countries where there are customers
+select customer_id, country from customers group by country;
+
+-- 17. Contact titles for customers
+select  count(contact_title), contact_title from customers group by contact_title ;
+
+-- 18. Products with associated supplier names
+select product_id, product_name, suppliers.supplier_id from products join suppliers on products.supplier_id = suppliers.supplier_id;
+
+-- 19. Orders and the Shipper that was used
+select order_id, ship_via as shipper_id, shippers.company_name as shipper_company from orders join shippers on orders.ship_via = shippers.shipper_id order by order_date;
